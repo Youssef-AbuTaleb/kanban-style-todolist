@@ -1,0 +1,6 @@
+.todo-app {
+  display: flex;
+  gap: 15px;
+  background-color: var(--app-bg);
+  min-height: 90vh;
+}

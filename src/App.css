@@ -1,0 +1,70 @@
+
+/* 1. CSS (Variables) */
+:root {
+  /* Brand & Status Colors */
+  --color-primary: #4f6ef7;
+  --status-todo: #4f6ef7;
+  --status-in-progress: #e38b29;
+  --status-review: #8e59ff;
+  --status-done: #48a461;
+
+  /* Neutrals */
+  --app-bg: #f1f5f5;
+  --column-bg: #e9efee;
+  --card-bg: #ffffff;
+  --border-color: #dde3e4;
+
+  /* Typography */
+  --text-main: #1a1c1e;
+  --text-muted: #64748b;
+
+  /* Priorities */
+  --tag-high-bg: #ffe2e2;
+  --tag-high-text: #d32f2f;
+  --tag-medium-bg: #ffedd5;
+  --tag-medium-text: #c27803;
+  --tag-low-bg: #e2e8f0;
+  --tag-low-text: #64748b;
+}
+
+/* 2. CSS RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--app-bg);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
