@@ -1,4 +1,6 @@
 .task-card {
+  position: relative;
+  margin-bottom: 1rem;
   background-color: var(--card-bg);
   border-radius: 8px;
   padding: 12px;

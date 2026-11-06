@@ -10,25 +10,22 @@ function TaskCard({ task, index }) {
     await queryClient.invalidateQueries({ queryKey: ["tasks"] });
   };
   return (
-    <div className="position-relative">
-      <Draggable draggableId={String(task.id)} index={index}>
-        {(provided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            className={`${classes["task-card"]} list-unstyled p-2 pe-5 text-break`}
-          >
-            <p className={classes["task-title"]}>{task.title}</p>
-            <p className={classes["task-description"]}>{task.description}</p>
-          </div>
-        )}
-      </Draggable>
-
-      <button className={classes["task-delete-btn"]} onClick={onDeleteTask}>
-        X
-      </button>
-    </div>
+    <Draggable draggableId={String(task.id)} index={index}>
+      {(provided) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className={`${classes["task-card"]} list-unstyled p-2 pe-5 text-break`}
+        >
+          <p className={classes["task-title"]}>{task.title}</p>
+          <p className={classes["task-description"]}>{task.description}</p>
+          <button className={classes["task-delete-btn"]} onClick={onDeleteTask}>
+            X
+          </button>
+        </div>
+      )}
+    </Draggable>
   );
 }
 

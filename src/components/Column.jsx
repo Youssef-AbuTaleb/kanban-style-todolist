@@ -1,10 +1,8 @@
 import { Droppable } from "@hello-pangea/dnd";
-import { useTasksQuery } from "../hooks/useTasksQuery";
+import { PAGE_SIZE, useTasksQuery } from "../hooks/useTasksQuery";
 import classes from "./Column.module.css";
 import TaskCard from "./task/TaskCard";
 import NewTask from "./task/NewTask";
-
-const PAGE_SIZE = 10;
 
 function Column({ columnKey, columnTitle, search }) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -23,7 +21,7 @@ function Column({ columnKey, columnTitle, search }) {
           <h2 className={`${classes["column-title"]} ${classes[columnKey]}`}>
             {columnTitle}
           </h2>
-          <ul className="p-0 d-flex flex-column gap-3">
+          <ul className={`${classes["task-list"]} p-0 d-flex flex-column`}>
             {tasks.map((task, index) => (
               <TaskCard key={task.id} task={task} index={index} />
             ))}

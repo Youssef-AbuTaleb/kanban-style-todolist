@@ -2,59 +2,69 @@ import Column from "./Column";
 import { COLUMNS } from "../helpers/todolist-columns";
 import classes from "./TodoApp.module.css";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { reorder, move } from "../helpers/drag-drop";
+import { reorder, move, toInfiniteData } from "../helpers/drag-drop";
 import { useQueryClient } from "@tanstack/react-query";
 import { updateTask } from "../services/tasksApi";
+import { PAGE_SIZE, tasksQueryKey } from "../hooks/useTasksQuery";
 
 function TodoApp({ search }) {
   const queryClient = useQueryClient(); // ✅ get it from context
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     const { source, destination } = result;
     if (!destination) return;
 
-    const sourceKey = source.droppableId;
-    const destKey = destination.droppableId;
+    const sourceColumn = source.droppableId;
+    const destColumn = destination.droppableId;
+    if (sourceColumn === destColumn && source.index === destination.index) {
+      return;
+    }
 
-    // 🔥 FIX: Find the query with matching column
-    const allQueries = queryClient.getQueryCache().findAll({
-      queryKey: ["tasks"], // Find all tasks queries
-    });
+    // The indexes from the drag refer to the lists on screen, so read exactly
+    // the queries the columns render: same column, page size and search term.
+    const sourceKey = tasksQueryKey(sourceColumn, PAGE_SIZE, search);
+    const destKey = tasksQueryKey(destColumn, PAGE_SIZE, search);
 
-    // Find the specific queries for source and destination columns
-    const sourceQuery = allQueries.find(
-      (query) => query.queryKey[1]?.column === sourceKey,
-    );
+    const sourceData = queryClient.getQueryData(sourceKey);
+    const destData = queryClient.getQueryData(destKey);
 
-    const destQuery = allQueries.find(
-      (query) => query.queryKey[1]?.column === destKey,
-    );
+    const sourceTasks = sourceData?.pages.flat() ?? [];
+    const destTasks = destData?.pages.flat() ?? [];
 
-    const sourceData = sourceQuery?.state.data || [];
-    const destData = destQuery?.state.data || [];
-
-    // Get the moved task
-    const movedTask = sourceData[source.index];
-    console.log("Moved Task:", movedTask);
-
+    const movedTask = sourceTasks[source.index];
     if (!movedTask) {
       console.error("Task not found at index:", source.index);
       return;
     }
 
-    // Rest of your logic...
-    if (sourceKey === destKey) {
-      const reordered = reorder(sourceData, source.index, destination.index);
-      queryClient.setQueryData(sourceQuery.queryKey, reordered);
-    } else {
-      const resultMove = move(sourceData, destData, source, destination);
+    if (sourceColumn === destColumn) {
+      const reordered = reorder(sourceTasks, source.index, destination.index);
+      queryClient.setQueryData(sourceKey, toInfiniteData(sourceData, reordered));
+      return;
+    }
 
-      queryClient.setQueryData(sourceQuery.queryKey, resultMove.source);
-      queryClient.setQueryData(destQuery.queryKey, resultMove.destination);
+    // Stop in-flight fetches from overwriting the optimistic update. Not
+    // awaited: the cache must change synchronously or the card snaps back.
+    queryClient.cancelQueries({ queryKey: sourceKey, exact: true });
+    queryClient.cancelQueries({ queryKey: destKey, exact: true });
 
-      // Persist column change
-      updateTask(movedTask.id, { column: destKey }).then(() => {
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      });
+    const moved = move(sourceTasks, destTasks, source, destination);
+    queryClient.setQueryData(sourceKey, toInfiniteData(sourceData, moved.source));
+    if (destData) {
+      queryClient.setQueryData(
+        destKey,
+        toInfiniteData(destData, moved.destination),
+      );
+    }
+
+    try {
+      await updateTask(movedTask.id, { column: destColumn });
+    } catch (error) {
+      console.error(error);
+      queryClient.setQueryData(sourceKey, sourceData);
+      queryClient.setQueryData(destKey, destData);
+    } finally {
+      // Also refreshes the cached results for other search terms.
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     }
   };
   return (

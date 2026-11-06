@@ -9,6 +9,13 @@
   gap: 15px;
 }
 
+/* Spacing between cards is a margin on .task-card, not gap: the drag library
+   measures margins when making room for a card, but ignores gap. */
+.task-list {
+  margin-bottom: 0;
+  min-height: 1rem;
+}
+
 /* column title bullet */
 .column-title::before {
   content: "";

@@ -1,10 +1,17 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getTasks } from "../services/tasksApi";
 
+export const PAGE_SIZE = 10;
+
+export const tasksQueryKey = (column, limit, keyword) => [
+  "tasks",
+  { column, limit, keyword },
+];
+
 // Infinite tasks per column (and keyword),  paginated on the server.
 export const useTasksQuery = (column, limit, keyword) => {
   return useInfiniteQuery({
-    queryKey: ["tasks", { column, limit, keyword }],
+    queryKey: tasksQueryKey(column, limit, keyword),
     queryFn: ({ pageParam = 1 }) =>
       getTasks(column, pageParam, limit, keyword),
     getNextPageParam: (lastPage, allPages) =>

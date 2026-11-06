@@ -1,136 +1,16 @@
 {
   "tasks": [
     {
-      "id": 11,
-      "title": "Design homepage 2",
-      "description": "Include hero section",
-      "column": "backlog"
+      "title": "task 1",
+      "description": "description",
+      "column": "review",
+      "id": 1
     },
     {
-      "id": 111,
-      "title": "Design homepage 3",
-      "description": "Include hero section",
-      "column": "backlog"
-    },
-    {
-      "id": 2,
-      "title": "Design homepage in_progress 1",
-      "description": "Include hero section in_progress",
-      "column": "in_progress"
-    },
-    {
-      "id": 22,
-      "title": "Design homepage in_progress 2",
-      "description": "Include hero section in_progress",
-      "column": "in_progress"
-    },
-    {
-      "id": 3,
-      "title": "New Task review 1",
-      "description": "This is a new task review",
-      "column": "review"
-    },
-    {
-      "id": 33,
-      "title": "New Task review 2",
-      "description": "This is a new task review",
-      "column": "review"
-    },
-    {
-      "id": 333,
-      "title": "New Task review 3",
-      "description": "This is a new task review",
-      "column": "review"
-    },
-    {
-      "id": 3333,
-      "title": "New Task review 4",
-      "description": "This is a new task review",
-      "column": "review"
-    },
-    {
-      "id": 4,
-      "title": "New Task done 1",
-      "description": "This is a new task done",
-      "column": "done"
-    },
-    {
-      "title": "backlog title 4",
-      "description": "backlog description 4",
-      "column": "backlog",
-      "id": 3334
-    },
-    {
-      "title": "in progress title 3",
-      "description": "in progress description 3",
+      "title": "task 2",
+      "description": "description",
       "column": "in_progress",
-      "id": 3335
-    },
-    {
-      "title": "done title 2",
-      "description": "done description 2",
-      "column": "done",
-      "id": 3336
-    },
-    {
-      "title": "5555",
-      "description": "5555",
-      "column": "review",
-      "id": 3337
-    },
-    {
-      "title": "666666",
-      "description": "6666666",
-      "column": "review",
-      "id": 3338
-    },
-    {
-      "title": "7777777",
-      "description": "7777777",
-      "column": "review",
-      "id": 3339
-    },
-    {
-      "title": "888888",
-      "description": "888888",
-      "column": "review",
-      "id": 3340
-    },
-    {
-      "title": "99999",
-      "description": "9999",
-      "column": "review",
-      "id": 3341
-    },
-    {
-      "title": "10",
-      "description": "10",
-      "column": "review",
-      "id": 3342
-    },
-    {
-      "title": "11",
-      "description": "11",
-      "column": "review",
-      "id": 3343
-    },
-    {
-      "title": "12",
-      "description": "12",
-      "column": "review",
-      "id": 3344
-    },
-    {
-      "title": "13",
-      "description": "13",
-      "column": "review",
-      "id": 3345
-    },
-    {
-      "title": "14",
-      "description": "14",
-      "column": "review",
-      "id": 3346
+      "id": 2
     }
   ]
 }
